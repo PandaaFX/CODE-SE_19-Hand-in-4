@@ -40,15 +40,20 @@ const sessionStore = new MySQLStore(
   getDBPool(),
 );
 
-app.use(
-  session({
-    secret: process.env.SESSION_SECRET,
-    resave: process.env.SESSION_RESAVE,
-    saveUninitialized: process.env.SESSION_SAVE_UNINITIALIZED,
-    store: sessionStore,
-    cookie: {},
-  }),
-);
+const sessionOptions = {
+  secret: process.env.SESSION_SECRET,
+  resave: process.env.SESSION_RESAVE,
+  saveUninitialized: process.env.SESSION_SAVE_UNINITIALIZED,
+  store: sessionStore,
+  cookie: {},
+};
+
+if (app.get("env") === "production") {
+  app.set("trust proxy", 1);
+  sessionOptions.cookie.secure = true;
+}
+
+app.use(session(sessionOptions));
 
 (async () => {
   const isDatabaseConnected = await checkDatabaseConnection();
