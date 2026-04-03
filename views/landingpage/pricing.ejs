@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= pageTitle %></title>
+    <link rel="stylesheet" href="/assets/css/global.css" />
+    <link rel="stylesheet" href="/assets/css/pricing.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <nav>
+      <span class="company-name">NoteNova</span>
+      <ul>
+        <li class="nav-item">
+          <a href="/">Home</a>
+        </li>
+        <li class="nav-item">
+          <a href="/features">Features</a>
+        </li>
+        <li class="nav-item active">
+          <a href="#">Pricing</a>
+        </li>
+      </ul>
+      <% if (isLoggedIn) { %>
+        <a href="/panel" class="nav-login-btn">Panel</a>
+      <% } else { %>
+        <a href="/login" class="nav-login-btn">Login</a>
+      <% } %>
+    </nav>
+    <main>
+      <section id="pricing-sec1">
+        <div class="pricing-header-container">
+          <h1 class="pricing-hero-heading">Simple, Fair</h1>
+          <h1 class="pricing-hero-heading highlighted">Pricing</h1>
+          <span class="pricing-hero-sub-text">
+            Choose the note-taking plan that fits your workflow. No hidden fees.
+          </span>
+        </div>
+      </section>
+      <section id="pricing-sec2">
+        <div class="pricing-cards-container">
+          <div class="pricing-card">
+            <div class="card-header">
+              <h3 class="plan-name">Starter</h3>
+              <div class="price-container">
+                <span class="currency">€</span>
+                <span class="price">0</span>
+                <span class="period">/mo</span>
+              </div>
+              <p class="plan-description">
+                Perfect for getting started with daily notes.
+              </p>
+            </div>
+            <ul class="plan-features">
+              <li>
+                <span class="material-symbols-outlined check-icon"
+                  >check_circle</span
+                >
+                Up to 500 Notes
+              </li>
+              <li>
+                <span class="material-symbols-outlined check-icon"
+                  >check_circle</span
+                >
+                Basic Search
+              </li>
+              <li>
+                <span class="material-symbols-outlined check-icon"
+                  >check_circle</span
+                >
+                Sync on 2 Devices
+              </li>
+              <li>
+                <span class="material-symbols-outlined check-icon"
+                  >check_circle</span
+                >
+                Community Support
+              </li>
+            </ul>
+            <a href="#" class="pricing-btn secondary">Get Started</a>
+          </div>
+
+          <div class="pricing-card highlighted">
+            <div class="card-header">
+              <span class="popular-tag">Most Popular</span>
+              <h3 class="plan-name">Pro</h3>
+              <div class="price-container">
+                <span class="currency">€</span>
+                <span class="price">6.99</span>
+                <span class="period">/mo</span>
+              </div>
+              <p class="plan-description">
+                For students and professionals who take many notes.
+              </p>
+            </div>
+            <ul class="plan-features">
+              <li>
+                <span class="material-symbols-outlined check-icon"
+                  >check_circle</span
+                >
+                Unlimited Notes
+              </li>
+              <li>
+                <span class="material-symbols-outlined check-icon"
+                  >check_circle</span
+                >
+                Advanced Search
+              </li>
+              <li>
+                <span class="material-symbols-outlined check-icon"
+                  >check_circle</span
+                >
+                Unlimited Devices
+              </li>
+              <li>
+                <span class="material-symbols-outlined check-icon"
+                  >check_circle</span
+                >
+                Shared Notebooks
+              </li>
+              <li>
+                <span class="material-symbols-outlined check-icon"
+                  >check_circle</span
+                >
+                Priority Support
+              </li>
+            </ul>
+            <a href="#" class="pricing-btn main">Get Started</a>
+          </div>
+
+          <div class="pricing-card">
+            <div class="card-header">
+              <h3 class="plan-name">Team</h3>
+              <div class="price-container">
+                <span class="currency">€</span>
+                <span class="price">19.99</span>
+                <span class="period">/mo</span>
+              </div>
+              <p class="plan-description">
+                Advanced collaboration for teams and organizations.
+              </p>
+            </div>
+            <ul class="plan-features">
+              <li>
+                <span class="material-symbols-outlined check-icon"
+                  >check_circle</span
+                >
+                Everything in Pro
+              </li>
+              <li>
+                <span class="material-symbols-outlined check-icon"
+                  >check_circle</span
+                >
+                Team Workspaces
+              </li>
+              <li>
+                <span class="material-symbols-outlined check-icon"
+                  >check_circle</span
+                >
+                Role Permissions
+              </li>
+              <li>
+                <span class="material-symbols-outlined check-icon"
+                  >check_circle</span
+                >
+                Audit Logs
+              </li>
+              <li>
+                <span class="material-symbols-outlined check-icon"
+                  >check_circle</span
+                >
+                Dedicated Support
+              </li>
+            </ul>
+            <a href="#" class="pricing-btn secondary">Contact Sales</a>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer>
+      <div class="footer-container">
+        <p>&copy; 2026 NoteNova. All rights reserved.</p>
+        <ul class="footer-links">
+          <li><a href="/">Home</a></li>
+          <li><a href="/features">Features</a></li>
+          <li><a href="/pricing">Pricing</a></li>
+        </ul>
+      </div>
+    </footer>
+    <script src="/assets/js/global.js"></script>
+  </body>
+</html>

@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= pageTitle %></title>
+    <link rel="stylesheet" href="/assets/css/global.css" />
+    <link rel="stylesheet" href="/assets/css/home.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <nav>
+      <span class="company-name">NoteNova</span>
+      <ul>
+        <li class="nav-item active">
+          <a href="#">Home</a>
+        </li>
+        <li class="nav-item">
+          <a href="/features">Features</a>
+        </li>
+        <li class="nav-item">
+          <a href="/pricing">Pricing</a>
+        </li>
+      </ul>
+      <% if (isLoggedIn) { %>
+        <a href="/panel" class="nav-login-btn">Panel</a>
+      <% } else { %>
+        <a href="/login" class="nav-login-btn">Login</a>
+      <% } %>
+    </nav>
+    <main>
+      <section id="home-sec1">
+        <div class="hero-container">
+          <h1 class="home-hero-heading p1">Capture Every</h1>
+          <h1 class="home-hero-heading p2">Idea</h1>
+          <h1 class="home-hero-heading p3">Effortlessly</h1>
+          <span class="home-hero-sub-text">
+            The best note-taking app in the world for organizing thoughts,
+            planning your day, and never forgetting what matters.
+          </span>
+
+          <div class="home-button-container">
+            <a href="#" class="home-btn main"
+              >Start Writing Notes
+              <span class="material-symbols-outlined">arrow_forward</span></a
+            >
+            <a href="#" class="home-btn secondary"
+              ><span class="material-symbols-outlined text-text-sub"
+                >play_circle</span
+              >
+              See It In Action</a
+            >
+          </div>
+        </div>
+        <img
+          src="/assets/images/home_hero.png"
+          alt="hero section image"
+          class="hero-image"
+          draggable="false"
+        />
+      </section>
+      <section id="home-sec2">
+        <div class="home-choose-us-container">
+          <h2 class="choose-us-title">Why NoteNova</h2>
+          <span class="choose-us-text"
+            >Everything you need to think clearly, write faster, and stay
+            organized.</span
+          >
+        </div>
+        <div class="home-cards-container">
+          <div class="home-card" onclick="">
+            <span class="material-symbols-outlined home-card-icon"
+              >monitoring</span
+            >
+            <h3 class="home-card-title">Smart Note Organization</h3>
+            <span class="home-card-text"
+              >Keep notes structured with tags, folders, and pinned sections so
+              every thought is easy to find when you need it.</span
+            >
+          </div>
+          <div class="home-card" onclick="">
+            <span class="material-symbols-outlined home-card-icon"
+              >cloud_sync</span
+            >
+            <h3 class="home-card-title">Fast Sync Everywhere</h3>
+            <span class="home-card-text"
+              >Your notes stay up to date across all your devices so you can
+              capture ideas on desktop, tablet, or phone instantly.</span
+            >
+          </div>
+          <div class="home-card" onclick="">
+            <span class="material-symbols-outlined home-card-icon">groups</span>
+            <h3 class="home-card-title">Shared Workspaces</h3>
+            <span class="home-card-text"
+              >Collaborate on notes with friends, classmates, or teammates and
+              keep everyone aligned on ideas, plans, and tasks.</span
+            >
+          </div>
+          <div class="home-card" onclick="">
+            <span class="material-symbols-outlined home-card-icon"
+              >support_agent</span
+            >
+            <h3 class="home-card-title">Distraction-Free Writing</h3>
+            <span class="home-card-text"
+              >Focus mode keeps your writing clean and calm so you can think
+              deeply and turn ideas into polished notes faster.</span
+            >
+          </div>
+          <div class="home-card" onclick="">
+            <span class="material-symbols-outlined home-card-icon"
+              >integration_instructions</span
+            >
+            <h3 class="home-card-title">Templates That Save Time</h3>
+            <span class="home-card-text"
+              >Start quickly with reusable templates for meeting notes, study
+              guides, daily planning, and project outlines.</span
+            >
+          </div>
+          <div class="home-card" onclick="">
+            <span class="material-symbols-outlined home-card-icon"
+              >encrypted</span
+            >
+            <h3 class="home-card-title">Private And Secure</h3>
+            <span class="home-card-text"
+              >Your notes are protected with strong security so your personal
+              thoughts, plans, and drafts stay yours.</span
+            >
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer>
+      <div class="footer-container">
+        <p>&copy; 2026 NoteNova. All rights reserved.</p>
+        <ul class="footer-links">
+          <li><a href="/">Home</a></li>
+          <li><a href="/features">Features</a></li>
+          <li><a href="/pricing">Pricing</a></li>
+        </ul>
+      </div>
+    </footer>
+    <script src="/assets/js/global.js"></script>
+  </body>
+</html>

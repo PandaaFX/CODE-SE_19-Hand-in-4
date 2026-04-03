@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= pageTitle %></title>
+    <link rel="stylesheet" href="/assets/css/global.css" />
+    <link rel="stylesheet" href="/assets/css/features.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <nav>
+      <span class="company-name">NoteNova</span>
+      <ul>
+        <li class="nav-item">
+          <a href="/">Home</a>
+        </li>
+        <li class="nav-item active">
+          <a href="#">Features</a>
+        </li>
+        <li class="nav-item">
+          <a href="/pricing">Pricing</a>
+        </li>
+      </ul>
+      <% if (isLoggedIn) { %>
+        <a href="/panel" class="nav-login-btn">Panel</a>
+      <% } else { %>
+        <a href="/login" class="nav-login-btn">Login</a>
+      <% } %>
+    </nav>
+    <main>
+      <section id="features-sec1">
+        <div class="features-header-container">
+          <h1 class="features-hero-heading">Powerful Note-Taking</h1>
+          <h1 class="features-hero-heading highlighted">Features</h1>
+          <span class="features-hero-sub-text">
+            Everything you need to capture ideas, stay organized, and write
+            without friction.
+          </span>
+        </div>
+      </section>
+
+      <section id="features-sec2">
+        <div class="features-grid">
+          <div class="feature-item">
+            <div class="feature-icon-wrapper">
+              <span class="material-symbols-outlined">monitoring</span>
+            </div>
+            <div class="feature-content">
+              <h3>Smart Note Organization</h3>
+              <p>
+                Sort your notes with folders, tags, and filters so every thought
+                is instantly searchable.
+              </p>
+            </div>
+          </div>
+
+          <div class="feature-item">
+            <div class="feature-icon-wrapper">
+              <span class="material-symbols-outlined">cloud_sync</span>
+            </div>
+            <div class="feature-content">
+              <h3>Secure Sync Across Devices</h3>
+              <p>
+                Your notes are always up to date on desktop, tablet, and phone
+                with reliable cloud sync.
+              </p>
+            </div>
+          </div>
+
+          <div class="feature-item">
+            <div class="feature-icon-wrapper">
+              <span class="material-symbols-outlined">groups</span>
+            </div>
+            <div class="feature-content">
+              <h3>Shared Notes</h3>
+              <p>
+                Collaborate with classmates or teammates in shared workspaces
+                and keep everyone aligned.
+              </p>
+            </div>
+          </div>
+
+          <div class="feature-item">
+            <div class="feature-icon-wrapper">
+              <span class="material-symbols-outlined">auto_fix_high</span>
+            </div>
+            <div class="feature-content">
+              <h3>Focus Writing Mode</h3>
+              <p>
+                Write distraction-free in a clean editor designed to help you
+                think clearly and ship ideas faster.
+              </p>
+            </div>
+          </div>
+
+          <div class="feature-item">
+            <div class="feature-icon-wrapper">
+              <span class="material-symbols-outlined"
+                >integration_instructions</span
+              >
+            </div>
+            <div class="feature-content">
+              <h3>Reusable Templates</h3>
+              <p>
+                Start quickly with templates for study notes, meetings,
+                planning, and personal journals.
+              </p>
+            </div>
+          </div>
+
+          <div class="feature-item">
+            <div class="feature-icon-wrapper">
+              <span class="material-symbols-outlined">verified_user</span>
+            </div>
+            <div class="feature-content">
+              <h3>Private And Secure</h3>
+              <p>
+                Your personal notes are protected with modern security and
+                privacy-first design.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="features-cta-container">
+          <h2>Ready to take better notes every day?</h2>
+          <div class="cta-buttons">
+            <a href="/pricing" class="features-btn main">View Pricing</a>
+            <a href="/" class="features-btn secondary">Back to Home</a>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer>
+      <div class="footer-container">
+        <p>&copy; 2026 NoteNova. All rights reserved.</p>
+        <ul class="footer-links">
+          <li><a href="/">Home</a></li>
+          <li><a href="/features">Features</a></li>
+          <li><a href="/pricing">Pricing</a></li>
+        </ul>
+      </div>
+    </footer>
+    <script src="/assets/js/global.js"></script>
+  </body>
+</html>

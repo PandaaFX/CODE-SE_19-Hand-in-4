@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= pageTitle %></title>
+    <link rel="stylesheet" href="/assets/css/global.css" />
+    <link rel="stylesheet" href="/assets/css/auth.css" />
+
+    <script>
+      const spinner_bg = this.document.createElement("div");
+      spinner_bg.classList.add("spinner__background");
+
+      const spinner_loader = this.document.createElement("span");
+      spinner_loader.classList.add("spinner__loader");
+
+      spinner_bg.appendChild(spinner_loader);
+
+      this.document.documentElement.append(spinner_bg);
+    </script>
+  </head>
+  <body class="login-page">
+    <main class="auth-main">
+      <section class="auth-shell login-layout">
+        <div class="auth-copy">
+          <h1>Welcome Back to <span>NoteNova</span></h1>
+          <p>
+            Log in to continue writing, organizing, and reviewing your notes in
+            one calm workspace.
+          </p>
+          <ul class="auth-list">
+            <li>Fast and distraction-free editor</li>
+            <li>Smart note grouping with tags</li>
+            <li>Sync-ready structure for every device</li>
+          </ul>
+        </div>
+
+        <div class="auth-card">
+          <h2>Log In</h2>
+          <p class="sub">Access your account and pick up where you left off.</p>
+
+          <form
+            class="auth-form"
+            action="/login"
+            data-form-action="login"
+            method="post"
+          >
+            <label>
+              Email
+              <input
+                type="email"
+                name="email"
+                placeholder="you@example.com"
+                autocomplete="username"
+              />
+            </label>
+
+            <label>
+              Password
+              <input
+                type="password"
+                name="password"
+                placeholder="Enter password"
+                autocomplete="current-password"
+              />
+            </label>
+
+            <div class="row">
+              <label class="remember"
+                ><input type="checkbox" name="remember" /> Remember me</label
+              >
+              <a href="#">Forgot password?</a>
+            </div>
+
+            <button class="btn-primary" type="submit">Log In</button>
+          </form>
+
+          <p class="auth-foot">
+            New here? <a href="/register">Create an account</a>
+          </p>
+        </div>
+      </section>
+    </main>
+    <script src="/assets/js/global.js"></script>
+    <script src="/assets/js/formHandler.js"></script>
+    <script src="/assets/js/spinner.js"></script>
+  </body>
+</html>

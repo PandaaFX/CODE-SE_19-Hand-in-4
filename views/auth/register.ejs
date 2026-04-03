@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= pageTitle %></title>
+    <link rel="stylesheet" href="/assets/css/global.css" />
+    <link rel="stylesheet" href="/assets/css/auth.css" />
+
+    <script>
+      const spinner_bg = this.document.createElement("div");
+      spinner_bg.classList.add("spinner__background");
+
+      const spinner_loader = this.document.createElement("span");
+      spinner_loader.classList.add("spinner__loader");
+
+      spinner_bg.appendChild(spinner_loader);
+
+      this.document.documentElement.append(spinner_bg);
+    </script>
+  </head>
+  <body class="register-page">
+    <main class="auth-main">
+      <section class="auth-shell register-layout">
+        <div class="auth-card">
+          <h2>Create Account</h2>
+          <p class="sub">Start organizing your notes in minutes.</p>
+
+          <form
+            class="auth-form"
+            action="/register"
+            data-form-action="register"
+            method="post"
+          >
+            <div class="grid-two">
+              <label>
+                First name
+                <input type="text" name="firstname" placeholder="Alex" />
+              </label>
+
+              <label>
+                Last name
+                <input type="text" name="lastname" placeholder="Miller" />
+              </label>
+            </div>
+
+            <label>
+              Email
+              <input
+                type="email"
+                name="email"
+                placeholder="you@example.com"
+                autocomplete="username"
+              />
+            </label>
+
+            <label>
+              Password
+              <input
+                type="password"
+                name="password"
+                placeholder="Create a password"
+                autocomplete="new-password"
+              />
+            </label>
+
+            <label>
+              Confirm password
+              <input
+                type="password"
+                name="confirmPassword"
+                placeholder="Confirm password"
+                autocomplete="new-password"
+              />
+            </label>
+
+            <label class="terms">
+              <input type="checkbox" name="terms" /> I agree to the
+              <a href="#">Terms</a> and <a href="#">Privacy Policy</a>.
+            </label>
+
+            <button class="btn-primary" type="submit">Create Account</button>
+          </form>
+
+          <p class="auth-foot">
+            Already have an account? <a href="/login">Log in</a>
+          </p>
+        </div>
+
+        <div class="auth-copy">
+          <h1>Build Your <span>Second Brain</span></h1>
+          <p>
+            Save ideas, summarize meetings, and keep your life organized in one
+            clean note-taking workspace.
+          </p>
+          <ul class="auth-list">
+            <li>Beautiful writing interface</li>
+            <li>Powerful note and tag structure</li>
+            <li>Designed for students and creators</li>
+          </ul>
+        </div>
+      </section>
+    </main>
+    <script src="/assets/js/global.js"></script>
+    <script src="/assets/js/formHandler.js"></script>
+    <script src="/assets/js/spinner.js"></script>
+  </body>
+</html>

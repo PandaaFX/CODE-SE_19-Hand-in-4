@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= pageTitle %></title>
+    <link rel="stylesheet" href="/assets/css/global.css" />
+  </head>
+  <body>
+    <main>
+      <section
+        style="
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          min-height: 100vh;
+        "
+      >
+        <div style="text-align: center">
+          <h1 style="font-size: 2.5rem"><%= httpErrCode %></h1>
+          <p style="color: var(--sub-text-color); margin-top: 0.75rem">
+            <%= httpErrMessage %>
+          </p>
+          <p style="margin-top: 1rem"><a href="/">Return to Home</a></p>
+        </div>
+      </section>
+    </main>
+    <script src="/assets/js/global.js"></script>
+  </body>
+</html>
