@@ -73,7 +73,7 @@ router.put("/updateUserAvatar", isLoggedIn, async function (req, res) {
   }
 
   const newAvatar = req.body;
-  if (!newAvatar) {
+  if (!Buffer.isBuffer(newAvatar)) {
     return res.status(400).send({
       success: false,
       httpCode: 400,
@@ -105,7 +105,7 @@ router.put("/updateUserAvatar", isLoggedIn, async function (req, res) {
   return res.status(200).send({
     success: true,
     httpCode: 200,
-    message: "Updated avatar successfully"
+    message: "Updated avatar successfully",
   });
 });
 
