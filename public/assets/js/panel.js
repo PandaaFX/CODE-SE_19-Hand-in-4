@@ -99,7 +99,44 @@ if (passwordForm) {
 const avatarWrapper = document.getElementById("avatar-wrapper");
 
 if (avatarWrapper) {
-  avatarWrapper.addEventListener("click", function () {
-    window.notify.info("Avatar upload will be available soon!");
+  avatarWrapper.addEventListener("click", async function () {
+    const [fileHandle] = await window.showOpenFilePicker({
+      types: [
+        {
+          description: "Images",
+          accept: {
+            "image/png": [".png"],
+            "image/jpeg": [".jpg", ".jpeg"],
+            "image/webp": [".webp"],
+          },
+        },
+      ],
+      excludeAcceptAllOption: true,
+      multiple: false,
+    });
+
+    const file = await fileHandle.getFile();
+
+    const allowed = new Set(["image/png", "image/jpeg", "image/webp"]);
+    if (!allowed.has(file.type)) {
+      window.notify.error("Unsupported file type.");
+      return;
+    }
+
+    const request = await fetch("/panel/updateUserAvatar", {
+      method: "PUT",
+      headers: {
+        "Content-Type": file.type,
+      },
+      body: file,
+    });
+
+    const response = await request.json();
+    if (request?.ok) {
+      window.notify.success(response?.message ?? "Updated!");
+      document.getElementById("avatar-img").src = `/api/avatar?v=${Date.now()}`;
+    } else {
+      window.notify.error(response?.message ?? "Something went wrong");
+    }
   });
 }
