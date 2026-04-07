@@ -103,6 +103,8 @@ async function getUserAvatar(sessionToken) {
     [sessionToken],
   );
 
+  if (rows.length === 0) return null;
+
   return rows[0].avatar;
 }
 

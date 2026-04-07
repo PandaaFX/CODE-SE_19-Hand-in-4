@@ -32,11 +32,7 @@ const DEFAULT_AVATAR_PATH = path.resolve(
 router.get("/avatar", async function (req, res) {
   const sessionToken = req.session.session_token;
   if (!sessionToken) {
-    return res.status(401).send({
-      success: false,
-      httpCode: 401,
-      errorMessage: "Unauthorized",
-    });
+    return res.status(302).sendFile(DEFAULT_AVATAR_PATH);
   }
 
   const userAvatar = await database.getUserAvatar(sessionToken);
