@@ -2,6 +2,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `firstname` varchar(50) NOT NULL,
   `lastname` varchar(50) NOT NULL,
+  `avatar` blob DEFAULT NULL, -- 64kb
   `email` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `session_token` varchar(255) DEFAULT NULL,
