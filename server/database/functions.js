@@ -84,6 +84,17 @@ async function resetSessionTokenForUser(sessionToken) {
   return rows.affectedRows > 0;
 }
 
+async function isSessionTokenValid(sessionToken) {
+  const pool = getDBPool();
+
+  const [rows] = await pool.query(
+    "SELECT 1 FROM `users` WHERE session_token = ?",
+    [sessionToken],
+  );
+
+  return rows[0];
+}
+
 async function getUserData(sessionToken) {
   const pool = getDBPool();
 
@@ -179,6 +190,7 @@ module.exports = {
   verifyUserCredentialsBySessionToken,
   addSessionTokenForUser,
   resetSessionTokenForUser,
+  isSessionTokenValid,
   getUserData,
   getUserAvatar,
   updateUserData,
