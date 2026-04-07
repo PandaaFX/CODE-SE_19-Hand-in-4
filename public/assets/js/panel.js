@@ -99,7 +99,56 @@ if (passwordForm) {
 const avatarWrapper = document.getElementById("avatar-wrapper");
 
 if (avatarWrapper) {
-  avatarWrapper.addEventListener("click", function () {
-    window.notify.info("Avatar upload will be available soon!");
+  avatarWrapper.addEventListener("click", async function () {
+    try {
+      const file = await new Promise(function (resolve) {
+        const input = document.createElement("input");
+        input.type = "file";
+        input.accept = ".png,.jpg,.jpeg,.webp,image/png,image/jpeg,image/webp";
+        input.style.display = "none";
+        input.addEventListener(
+          "change",
+          function () {
+            const selectedFile =
+              input.files && input.files[0] ? input.files[0] : null;
+            input.remove();
+            resolve(selectedFile);
+          },
+          { once: true },
+        );
+        document.body.appendChild(input);
+        input.click();
+      });
+      if (!file) {
+        return;
+      }
+
+      const allowed = new Set(["image/png", "image/jpeg", "image/webp"]);
+      if (!allowed.has(file.type)) {
+        window.notify.error("Unsupported file type.");
+        return;
+      }
+
+      const request = await fetch("/panel/updateUserAvatar", {
+        method: "PUT",
+        headers: {
+          "Content-Type": file.type,
+        },
+        body: file,
+      });
+
+      const response = await request.json();
+      if (request?.ok) {
+        window.notify.success(response?.message ?? "Updated!");
+        document.getElementById("avatar-img").src =
+          `/api/avatar?v=${Date.now()}`;
+      } else {
+        window.notify.error(response?.errorMessage ?? "Something went wrong");
+      }
+    } catch (err) {
+      if (err && err.name === "AbortError") return;
+
+      window.notify.error("Unable to select or upload avatar.");
+    }
   });
 }

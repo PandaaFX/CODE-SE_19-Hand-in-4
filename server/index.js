@@ -24,6 +24,21 @@ app.set("views", path.join(__dirname, "..", "views"));
 
 app.use(express.static(path.join(__dirname, "..", "public")));
 app.use(express.urlencoded({ extended: true }));
+app.use(
+  express.raw({
+    type: [
+      "image/png",
+      "image/jpg",
+      "image/jpeg",
+      "image/jpe",
+      "image/pjpeg",
+      "image/pjp",
+      "image/jfif",
+      "image/webp",
+    ],
+    limit: "10mb",
+  }),
+);
 
 const sessionStore = new MySQLStore(
   {

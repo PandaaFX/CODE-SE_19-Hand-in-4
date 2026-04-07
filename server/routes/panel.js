@@ -2,6 +2,7 @@ const express = require("express");
 const { isLoggedIn } = require("./authentication/middleware");
 const { securePassword } = require("../authentication/auth");
 const database = require("../database/functions");
+const { processAvatar, isMimeTypeValid } = require("../utils/avatar");
 const router = express.Router();
 
 router.get("/", isLoggedIn, async function (req, res) {
@@ -55,6 +56,56 @@ router.patch("/updateUserData", isLoggedIn, async function (req, res) {
     httpCode: 200,
     message: "Updated data successfully",
     reload: true,
+  });
+});
+
+router.put("/updateUserAvatar", isLoggedIn, async function (req, res) {
+  const sessionToken = req.session.session_token;
+
+  const contentType = req.headers["content-type"];
+  const mimeType = contentType.split("/")[1];
+  if (!isMimeTypeValid(mimeType)) {
+    return res.status(400).send({
+      success: false,
+      httpCode: 400,
+      errorMessage: "Avatar is not an image!",
+    });
+  }
+
+  const newAvatar = req.body;
+  if (!newAvatar) {
+    return res.status(400).send({
+      success: false,
+      httpCode: 400,
+      errorMessage: "Avatar cannot be missing or empty!",
+    });
+  }
+
+  const processedAvatar = await processAvatar(newAvatar);
+  if (!processedAvatar) {
+    return res.status(500).send({
+      success: false,
+      httpCode: 500,
+      errorMessage: "Something went wrong while processing your avatar!",
+    });
+  }
+
+  const updateResult = await database.updateUserAvatar(
+    processedAvatar,
+    sessionToken,
+  );
+  if (!updateResult) {
+    return res.status(500).send({
+      success: false,
+      httpCode: 500,
+      errorMessage: "Something went wrong while updating user avatar!",
+    });
+  }
+
+  return res.status(200).send({
+    success: true,
+    httpCode: 200,
+    message: "Updated avatar successfully"
   });
 });
 

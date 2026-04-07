@@ -95,6 +95,19 @@ async function getUserData(sessionToken) {
   return rows[0];
 }
 
+async function getUserAvatar(sessionToken) {
+  const pool = getDBPool();
+
+  const [rows] = await pool.query(
+    "SELECT `avatar` FROM `users` WHERE session_token = ?",
+    [sessionToken],
+  );
+
+  if (rows.length === 0) return null;
+
+  return rows[0].avatar;
+}
+
 async function updateUserData(firstname, lastname, email, sessionToken) {
   const pool = getDBPool();
 
@@ -120,6 +133,17 @@ async function updateUserData(firstname, lastname, email, sessionToken) {
   const [rows] = await pool.query(
     `UPDATE \`users\` SET ${setClauses.join(", ")} WHERE \`session_token\` = ?;`,
     dynamicValues,
+  );
+
+  return rows.affectedRows > 0;
+}
+
+async function updateUserAvatar(avatarBlob, sessionToken) {
+  const pool = getDBPool();
+
+  const [rows] = await pool.query(
+    "UPDATE `users` SET `avatar` = ? WHERE `session_token` = ?;",
+    [avatarBlob, sessionToken],
   );
 
   return rows.affectedRows > 0;
@@ -156,7 +180,9 @@ module.exports = {
   addSessionTokenForUser,
   resetSessionTokenForUser,
   getUserData,
+  getUserAvatar,
   updateUserData,
+  updateUserAvatar,
   changeUserPassword,
   deleteUserAccount,
 };
