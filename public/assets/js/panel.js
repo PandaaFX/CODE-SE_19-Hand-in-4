@@ -136,7 +136,7 @@ if (avatarWrapper) {
       window.notify.success(response?.message ?? "Updated!");
       document.getElementById("avatar-img").src = `/api/avatar?v=${Date.now()}`;
     } else {
-      window.notify.error(response?.message ?? "Something went wrong");
+      window.notify.error(response?.errorMessage ?? "Something went wrong");
     }
   });
 }
