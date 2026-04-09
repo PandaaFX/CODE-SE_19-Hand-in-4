@@ -1,8 +1,8 @@
 const express = require("express");
-const { isLoggedIn } = require("./authentication/middleware");
-const { securePassword } = require("../authentication/auth");
-const database = require("../database/functions");
-const { processAvatar, isMimeTypeValid } = require("../utils/avatar");
+const { isLoggedIn } = require("../authentication/middleware");
+const { securePassword } = require("../../authentication/auth");
+const database = require("../../database/functions");
+const { processAvatar, isMimeTypeValid } = require("../../utils/avatar");
 const router = express.Router();
 
 router.get("/", isLoggedIn, async function (req, res) {
@@ -10,7 +10,7 @@ router.get("/", isLoggedIn, async function (req, res) {
 
   const userData = await database.getUserData(sessionToken);
 
-  res.render("panel/index", {
+  res.render("panel/account", {
     pageTitle: "My Account",
     user: {
       id: userData.id,
@@ -62,22 +62,21 @@ router.patch("/updateUserData", isLoggedIn, async function (req, res) {
 router.put("/updateUserAvatar", isLoggedIn, async function (req, res) {
   const sessionToken = req.session.session_token;
 
-  const contentType = req.headers["content-type"];
-  const mimeType = contentType.split("/")[1];
-  if (!isMimeTypeValid(mimeType)) {
-    return res.status(400).send({
-      success: false,
-      httpCode: 400,
-      errorMessage: "Avatar is not an image!",
-    });
-  }
-
   const newAvatar = req.body;
   if (!Buffer.isBuffer(newAvatar)) {
     return res.status(400).send({
       success: false,
       httpCode: 400,
       errorMessage: "Avatar cannot be missing or empty!",
+    });
+  }
+
+  const contentType = req.headers["content-type"];
+  if (!contentType.includes("image/") && !isMimeTypeValid(newAvatar)) {
+    return res.status(400).send({
+      success: false,
+      httpCode: 400,
+      errorMessage: "Avatar is not an image!",
     });
   }
 

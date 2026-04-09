@@ -101,6 +101,7 @@ const avatarWrapper = document.getElementById("avatar-wrapper");
 if (avatarWrapper) {
   avatarWrapper.addEventListener("click", async function () {
     try {
+      const FILE_MAX_SIZE = 10_485_760; // 10MB
       const file = await new Promise(function (resolve) {
         const input = document.createElement("input");
         input.type = "file";
@@ -129,7 +130,12 @@ if (avatarWrapper) {
         return;
       }
 
-      const request = await fetch("/panel/updateUserAvatar", {
+      if (file.size > FILE_MAX_SIZE) {
+        window.notify.error("Image too big! Keep it under 10MB");
+        return;
+      }
+
+      const request = await fetch("/panel/account/updateUserAvatar", {
         method: "PUT",
         headers: {
           "Content-Type": file.type,

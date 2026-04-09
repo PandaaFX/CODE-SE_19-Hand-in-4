@@ -7,7 +7,7 @@ const path = require("path");
 const landingpageRoute = require("./routes/landingpage");
 const LoginRoute = require("./routes/authentication/login");
 const RegisterRoute = require("./routes/authentication/register");
-const panelRoute = require("./routes/panel");
+const panelRoute = require("./routes/panel/index.js");
 const apiRoute = require("./routes/api");
 
 const { checkDatabaseConnection } = require("./database/functions");
@@ -69,6 +69,16 @@ if (app.get("env") === "production") {
 }
 
 app.use(session(sessionOptions));
+
+app.use((err, req, res, next) => {
+  if (err.name === "PayloadTooLargeError") {
+    return res.status(413).send({
+      success: false,
+      httpCode: 413,
+      errorMessage: "Your Avatar is too large!",
+    });
+  }
+});
 
 (async () => {
   const isDatabaseConnected = await checkDatabaseConnection();
