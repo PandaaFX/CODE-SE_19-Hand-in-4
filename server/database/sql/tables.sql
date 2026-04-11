@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS `sessions` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `notes` (
-  `id` uuid NOT NULL DEFAULT uuid_v7(),
+  `id` uuid NOT NULL,
   `title` varchar(255) NOT NULL,
   `content` longtext DEFAULT NULL,
   `author_id` int(11) NOT NULL,
