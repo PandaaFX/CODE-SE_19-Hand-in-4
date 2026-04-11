@@ -8,6 +8,7 @@ const landingpageRoute = require("./routes/landingpage");
 const LoginRoute = require("./routes/authentication/login");
 const RegisterRoute = require("./routes/authentication/register");
 const panelRoute = require("./routes/panel/index.js");
+const notesRoute = require("./routes/notes/index.js");
 const apiRoute = require("./routes/api");
 
 const { checkDatabaseConnection } = require("./database/functions");
@@ -116,6 +117,10 @@ app.get("/logout", isLoggedIn, logoutGET);
 // ==================== PANEL ====================
 app.use("/panel", panelRoute);
 // ==================== PANEL ====================
+
+// ==================== NOTES ====================
+app.use("/notes", notesRoute);
+// ==================== NOTES ====================
 
 // ===================== API =====================
 app.use("/api", apiRoute);

@@ -1,3 +1,4 @@
+const { uuidv7 } = require("uuidv7");
 const { getDBPool } = require("./connection");
 const bcrypt = require("bcrypt");
 
@@ -193,6 +194,56 @@ async function deleteUserAccount(sessionToken) {
   return rows.affectedRows > 0;
 }
 
+async function insertNewNote(sessionToken) {
+  const pool = getDBPool();
+
+  const UUID_V7 = uuidv7();
+  const [rows] = await pool.query(
+    "INSERT INTO `notes` (id, title, author_id) SELECT ?, ?, `u`.`id` FROM `users` `u` WHERE `u`.`session_token` = ?",
+    [UUID_V7, "Unnamed Note", sessionToken],
+  );
+
+  return rows.affectedRows > 0;
+}
+
+async function updateNote(noteId, title, content, sessionToken) {
+  const pool = getDBPool();
+
+  let setClauses = [];
+  let dynamicValues = [];
+  if (title) {
+    setClauses.push("`n`.`title` = ?");
+    dynamicValues.push(title);
+  }
+  if (content) {
+    setClauses.push("`n`.`content` = ?");
+    dynamicValues.push(content);
+  }
+
+  if (setClauses.length === 0) return false;
+
+  dynamicValues.push(sessionToken);
+  dynamicValues.push(noteId);
+
+  const [rows] = await pool.query(
+    `UPDATE \`notes\` \`n\` JOIN \`users\` \`u\` ON \`u\`.\`id\` = \`n\`.\`author_id\` SET ${setClauses.join(", ")} WHERE \`u\`.\`session_token\` = ? AND \`n\`.\`id\` = ?`,
+    dynamicValues,
+  );
+
+  return rows.affectedRows > 0;
+}
+
+async function deleteNote(noteId, sessionToken) {
+  const pool = getDBPool();
+
+  const [rows] = await pool.query(
+    "DELETE `n` FROM `notes` `n` JOIN `users` `u` ON `u`.`id` = `n`.`author_id` WHERE `u`.`session_token` = ? AND `n`.`id` = ?",
+    [sessionToken, noteId],
+  );
+
+  return rows.affectedRows > 0;
+}
+
 module.exports = {
   checkDatabaseConnection,
   checkIfEmailExists,
@@ -209,4 +260,7 @@ module.exports = {
   updateUserAvatar,
   changeUserPassword,
   deleteUserAccount,
+  insertNewNote,
+  updateNote,
+  deleteNote,
 };
