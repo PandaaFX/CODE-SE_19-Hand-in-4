@@ -20,7 +20,6 @@
   "dependencies": {
     "bcrypt": "^6.0.0",
     "dotenv": "^17.3.1",
-    "editorjs-html": "^4.0.5",
     "ejs": "^3.1.10",
     "express": "^5.2.1",
     "express-mysql-session": "^3.0.3",
