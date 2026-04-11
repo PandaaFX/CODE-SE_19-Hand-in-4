@@ -1,46 +1,123 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title><%= pageTitle %></title>
-    <link rel="stylesheet" href="/assets/css/global.css" />
-    <link rel="stylesheet" href="/assets/css/panel.css" />
-  </head>
-  <body class="panel-page">
-    <nav>
-      <span class="company-name">NoteNova</span>
-      <ul>
-        <li class="nav-item">
-          <a href="/">Home</a>
-        </li>
-        <li class="nav-item">
-          <a href="/features">Features</a>
-        </li>
-        <li class="nav-item">
-          <a href="#">Pricing</a>
-        </li>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= pageTitle %></title>
+  <link rel="stylesheet" href="/assets/css/global.css" />
+  <link rel="stylesheet" href="/assets/css/panel.css" />
+</head>
+
+<body class="panel-page">
+  <nav>
+    <span class="company-name">NoteNova</span>
+    <ul>
+      <li class="nav-item active">
+        <a href="javascript:void(0)">Dashboard</a>
+      </li>
+      <li class="nav-item">
+        <a href="javascript:void(0)">My Notes</a>
+      </li>
+      <li class="nav-item">
+        <a href="/panel/account">Account</a>
+      </li>
+    </ul>
+    <a href="/logout" class="nav-login-btn">Log out</a>
+  </nav>
+
+  <main class="panel-main panel-home-main">
+    <section class="panel-header panel-home-header unset-min-height">
+      <div>
+        <h1>Welcome back, <%= user.firstname %></h1>
+        <p class="panel-home-subtitle">
+          Create, open, and remove your notes.
+        </p>
+      </div>
+    </section>
+
+    <section class="panel-card unset-min-height">
+      <h2 class="panel-card-title">Start a new note</h2>
+      <p class="panel-card-sub">
+        Use a blank note to quickly write down your next idea.
+      </p>
+      <div class="home-card-actions">
+        <button class="btn-save" type="button" data-create-note>
+          Blank Note
+        </button>
+      </div>
+    </section>
+
+    <section class="panel-card unset-min-height">
+      <div class="notes-head">
+        <h2 class="panel-card-title">Notes</h2>
+        <span class="notes-count" id="notes-count">0 notes</span>
+      </div>
+
+      <div class="notes-toolbar">
+        <label class="notes-filter-label" for="notes-filter">Filter</label>
+        <select class="notes-filter-select" id="notes-filter" name="notesFilter">
+          <option value="all">All notes</option>
+          <option value="owned">My notes</option>
+          <option value="shared">Shared with me</option>
+        </select>
+      </div>
+
+      <p class="panel-card-sub" id="notes-subtitle">
+        Your latest notes appear here.
+      </p>
+
+      <% if (notes && notes.length > 0) { %>
+      <div class="notes-list" id="notes-list" aria-live="polite">
+        <% notes.forEach((note) => { %>
+          <article class="note-item" data-note-id="<%= note.id %>">
+            <div class="note-item-main">
+              <h3 class="note-item-title"><%= note.title %></h3>
+
+              <p class="note-item-meta">
+                Updated: <%= new Date(note.updated_at).toLocaleDateString("en-GB") %>
+              </p>
+
+              <% if (user.id === note.author_id) { %>
+                <span class="note-access note-access-owned">Owned</span>
+              <% } else { %>
+                <span class="note-access note-access-shared">Shared</span>
+              <% } %>
+            </div>
+
+            <div class="note-item-actions">
+              <a href="/notes/<%= note.id %>" class="btn-save btn-note-open" data-open-note>
+                Open
+              </a>
+
+              <button type="button" class="btn-note-delete" data-delete-note>
+                Delete
+              </button>
+            </div>
+          </article>
+        <% }); %>
+      </div>
+      <% } else { %>
+        <p class="notes-empty" id="notes-empty">
+          No notes yet. Create your first one.
+        </p>
+      <% } %>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-container">
+      <span>&copy; 2026 NoteNova</span>
+      <ul class="footer-links">
+        <li><a href="#">Privacy</a></li>
+        <li><a href="#">Terms</a></li>
       </ul>
-    </nav>
+    </div>
+  </footer>
 
-    <main class="panel-main">
-      <div class="panel-header">
-        <h1>Welcome back <%= user.firstname %></h1>
-      </div>
-    </main>
+  <script src="/assets/js/global.js"></script>
+  <script src="/assets/js/formHandler.js"></script>
+  <script src="/assets/js/panel.js"></script>
+</body>
 
-    <footer>
-      <div class="footer-container">
-        <span>&copy; 2026 NoteNova</span>
-        <ul class="footer-links">
-          <li><a href="#">Privacy</a></li>
-          <li><a href="#">Terms</a></li>
-        </ul>
-      </div>
-    </footer>
-
-    <script src="/assets/js/global.js"></script>
-    <script src="/assets/js/formHandler.js"></script>
-    <script src="/assets/js/panel.js"></script>
-  </body>
 </html>

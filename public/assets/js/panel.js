@@ -158,3 +158,58 @@ if (avatarWrapper) {
     }
   });
 }
+
+const notesList = document.getElementById("notes-list");
+
+if (notesList) {
+  const notesFilter = document.getElementById("notes-filter");
+  const createButtons = document.querySelectorAll("[data-create-note]");
+  function showNotesWip(message) {
+    if (window.notify) {
+      window.notify.info(message);
+      return;
+    }
+
+    console.info(message);
+  }
+
+  function handleCreateNoteClick(event) {
+    event.preventDefault();
+    showNotesWip("WIP: note creation will be handled by SSR soon.");
+  }
+
+  createButtons.forEach(function (button) {
+    button.addEventListener("click", handleCreateNoteClick);
+  });
+
+  if (notesFilter) {
+    notesFilter.addEventListener("change", function (event) {
+      const target = event.target;
+      if (!(target instanceof HTMLSelectElement)) {
+        return;
+      }
+
+      showNotesWip(`WIP: '${target.value}' filter will be handled by SSR.`);
+    });
+  }
+
+  notesList.addEventListener("click", function (event) {
+    const target = event.target;
+    if (!(target instanceof Element)) {
+      return;
+    }
+
+    const openButton = target.closest("[data-open-note]");
+    if (openButton) {
+      event.preventDefault();
+      showNotesWip("WIP: note opening will be connected to SSR routes.");
+      return;
+    }
+
+    const deleteButton = target.closest("[data-delete-note]");
+    if (deleteButton) {
+      event.preventDefault();
+      showNotesWip("WIP: note deletion will be handled by SSR.");
+    }
+  });
+}

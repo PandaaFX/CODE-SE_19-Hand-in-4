@@ -119,6 +119,17 @@ async function getUserAvatar(sessionToken) {
   return rows[0].avatar;
 }
 
+async function getUserNotes(sessionToken) {
+  const pool = getDBPool();
+
+  const [rows] = await pool.query(
+    "SELECT `notes`.`id`, `notes`.`title`, `notes`.`author_id`, `notes`.`updated_at`, `notes`.`created_at` FROM `notes` JOIN `users` ON `notes`.`author_id` = `users`.`id` WHERE `users`.`session_token` = ?",
+    [sessionToken],
+  );
+
+  return rows;
+}
+
 async function updateUserData(firstname, lastname, email, sessionToken) {
   const pool = getDBPool();
 
@@ -193,6 +204,7 @@ module.exports = {
   isSessionTokenValid,
   getUserData,
   getUserAvatar,
+  getUserNotes,
   updateUserData,
   updateUserAvatar,
   changeUserPassword,
