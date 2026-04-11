@@ -92,7 +92,7 @@ async function isSessionTokenValid(sessionToken) {
     [sessionToken],
   );
 
-  return rows[0];
+  return rows.length > 0;
 }
 
 async function getUserData(sessionToken) {
