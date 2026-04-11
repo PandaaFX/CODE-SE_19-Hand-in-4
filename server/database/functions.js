@@ -203,7 +203,7 @@ async function insertNewNote(sessionToken) {
     [UUID_V7, "Unnamed Note", sessionToken],
   );
 
-  return rows.affectedRows > 0;
+  return rows.affectedRows > 0 ? UUID_V7 : false;
 }
 
 async function updateNote(noteId, title, content, sessionToken) {
