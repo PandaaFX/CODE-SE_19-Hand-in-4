@@ -76,6 +76,41 @@ nav .nav-login-btn:hover {
   background-color: var(--main-button-hover-color);
 }
 
+nav .nav-mode-select {
+  position: absolute;
+  right: 6rem;
+  font-weight: 650;
+  font-size: 1rem;
+  color: var(--main-button-text-color);
+  background-color: var(--main-button-color);
+  border: 0;
+  border-radius: 0.75rem;
+  padding: 0.5rem 2.25rem 0.5rem 1rem;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  transition: background-color 100ms ease-in-out;
+  background-image:
+    linear-gradient(45deg, transparent 50%, currentColor 50%),
+    linear-gradient(135deg, currentColor 50%, transparent 50%);
+  background-position:
+    calc(100% - 1.05rem) 50%,
+    calc(100% - 0.8rem) 50%;
+  background-size:
+    0.35rem 0.35rem,
+    0.35rem 0.35rem;
+  background-repeat: no-repeat;
+}
+
+nav .nav-mode-select:hover {
+  background-color: var(--main-button-hover-color);
+}
+
+nav .nav-mode-select:focus {
+  outline: none;
+}
+
 nav ul {
   display: flex;
   justify-content: space-between;
@@ -97,13 +132,29 @@ nav ul .nav-item a {
   user-select: none;
 }
 
+nav ul .nav-item .nav-share-trigger {
+  text-decoration: none;
+  color: var(--nav-text-color);
+  font-weight: 550;
+  transition: color 300ms ease;
+  user-select: none;
+  cursor: pointer;
+}
+
 nav ul .nav-item.active a,
 nav ul .nav-item a.active {
   color: var(--nav-active-text-color);
 }
 
-nav ul .nav-item:hover a {
+nav ul .nav-item:hover a,
+nav ul .nav-item:hover .nav-share-trigger {
   color: var(--nav-hover-text-color);
+}
+
+.share-note-toggle {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
 }
 
 @media (max-width: 1265px), (max-height: 600px) {

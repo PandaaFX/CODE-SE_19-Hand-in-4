@@ -51,15 +51,15 @@
     <section class="panel-card unset-min-height">
       <div class="notes-head">
         <h2 class="panel-card-title">Notes</h2>
-        <span class="notes-count" id="notes-count">0 notes</span>
+        <span class="notes-count" id="notes-count"><%= notes ? notes.length : 0 %> notes</span>
       </div>
 
       <div class="notes-toolbar">
         <label class="notes-filter-label" for="notes-filter">Filter</label>
         <select class="notes-filter-select" id="notes-filter" name="notesFilter">
-          <option value="all">All notes</option>
-          <option value="owned">My notes</option>
-          <option value="shared">Shared with me</option>
+          <option value="all" <%= noteFilter === "all" ? "selected" : "" %>>All notes</option>
+          <option value="owned" <%= noteFilter === "owned" ? "selected" : "" %>>My notes</option>
+          <option value="shared" <%= noteFilter === "shared" ? "selected" : "" %>>Shared with me</option>
         </select>
       </div>
 
@@ -70,31 +70,33 @@
       <% if (notes && notes.length > 0) { %>
       <div class="notes-list" id="notes-list" aria-live="polite">
         <% notes.forEach((note) => { %>
-          <article class="note-item" data-note-id="<%= note.id %>">
-            <div class="note-item-main">
-              <h3 class="note-item-title"><%= note.title %></h3>
+          <% if (noteFilter === "all" || (noteFilter === "owned" && user.id === note.author_id || noteFilter === "shared" && user.id !== note.author_id)) { %>
+            <article class="note-item" data-note-id="<%= note.id %>">
+              <div class="note-item-main">
+                <h3 class="note-item-title"><%= note.title %></h3>
 
-              <p class="note-item-meta">
-                Updated: <%= new Date(note.updated_at).toLocaleDateString("en-GB") %>
-              </p>
+                <p class="note-item-meta">
+                  Updated: <%= new Date(note.updated_at).toLocaleDateString("en-GB") %>
+                </p>
 
-              <% if (user.id === note.author_id) { %>
-                <span class="note-access note-access-owned">Owned</span>
-              <% } else { %>
-                <span class="note-access note-access-shared">Shared</span>
-              <% } %>
-            </div>
+                <% if (user.id === note.author_id) { %>
+                  <span class="note-access note-access-owned">Owned</span>
+                <% } else { %>
+                  <span class="note-access note-access-shared">Shared</span>
+                <% } %>
+              </div>
 
-            <div class="note-item-actions">
-              <a href="/notes/<%= note.id %>" class="btn-save btn-note-open" data-open-note>
-                Open
-              </a>
+              <div class="note-item-actions">
+                <a href="/notes/<%= note.id %>" target="_blank" class="btn-save btn-note-open">
+                  Open
+                </a>
 
-              <button type="button" class="btn-note-delete" data-delete-note>
-                Delete
-              </button>
-            </div>
-          </article>
+                <button type="button" class="btn-note-delete" data-delete-note="<%= note.id %>">
+                  Delete
+                </button>
+              </div>
+            </article>
+          <% } %>
         <% }); %>
       </div>
       <% } else { %>

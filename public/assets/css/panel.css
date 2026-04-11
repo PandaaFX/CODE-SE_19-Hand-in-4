@@ -196,6 +196,69 @@ body.panel-page main {
   min-height: unset;
 }
 
+.panel-card.panel-editor-size {
+  min-height: 75vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.note-title-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.note-title-input {
+  border: none;
+  background: transparent;
+  font-size: 1.85rem;
+  font-weight: 700;
+  color: var(--main-text-color);
+  margin-bottom: 0;
+  padding: 0;
+  width: 100%;
+  transition: opacity 200ms ease;
+}
+
+.note-title-input::placeholder {
+  color: var(--sub-text-color);
+  opacity: 0.6;
+}
+
+.note-title-input:focus {
+  outline: none;
+  opacity: 0.85;
+}
+
+.note-title-input:read-only {
+  cursor: default;
+}
+
+.note-title-status {
+  flex-shrink: 0;
+  border-radius: 999px;
+  padding: 0.2rem 0.65rem;
+  font-size: 0.78rem;
+  font-weight: 650;
+  background: #e7f0ff;
+  color: #155edc;
+}
+
+.note-title-status.is-saving {
+  background: #fff4d6;
+  color: #8a5b00;
+}
+
+.note-title-status.is-error {
+  background: #fbeaea;
+  color: #9a1e14;
+}
+
+#editorjs {
+  flex: 1;
+}
+
 .panel-card {
   background-color: var(--card-color);
   border: 1px solid var(--card-outline-color);
@@ -513,6 +576,10 @@ body.panel-page main {
   display: flex;
 }
 
+.share-note-toggle:checked ~ .share-note-modal {
+  display: flex;
+}
+
 .modal-box {
   background: var(--card-color);
   border-radius: 1.25rem;
@@ -521,6 +588,144 @@ body.panel-page main {
   box-shadow: 0 24px 48px rgba(16, 19, 24, 0.2);
   text-align: center;
   animation: modalIn 250ms ease;
+}
+
+.share-note-modal-box {
+  width: min(640px, 92vw);
+  text-align: left;
+}
+
+.share-note-modal-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.share-note-close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.1rem;
+  height: 2.1rem;
+  border-radius: 999px;
+  font-size: 1.5rem;
+  line-height: 1;
+  color: var(--sub-text-color);
+  background: #f3f5f9;
+  cursor: pointer;
+  user-select: none;
+}
+
+.share-note-close:hover {
+  color: var(--main-text-color);
+  background: #e9edf5;
+}
+
+.share-note-url {
+  display: grid;
+  gap: 0.45rem;
+  margin-bottom: 1.5rem;
+}
+
+.share-note-url label,
+.share-note-add label {
+  font-size: 0.9rem;
+  font-weight: 650;
+  color: var(--main-text-color);
+}
+
+.share-note-url input,
+.share-note-add input {
+  width: 100%;
+  border: 1px solid var(--card-outline-color);
+  border-radius: 0.8rem;
+  padding: 0.8rem 0.95rem;
+  font-size: 0.95rem;
+  color: var(--main-text-color);
+  background: #fbfcff;
+}
+
+.share-note-url input {
+  font-family: inherit;
+}
+
+.share-note-url small {
+  color: var(--sub-text-color);
+}
+
+.share-note-access-list {
+  display: grid;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.share-note-access-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  border: 1px solid var(--card-outline-color);
+  border-radius: 1rem;
+  padding: 0.9rem 1rem;
+  background: #fbfcff;
+}
+
+.share-note-access-item strong {
+  display: block;
+  font-size: 0.95rem;
+  color: var(--main-text-color);
+}
+
+.share-note-access-item span {
+  display: inline-block;
+  margin-top: 0.2rem;
+  font-size: 0.83rem;
+  color: var(--sub-text-color);
+}
+
+.share-note-remove-btn,
+.share-note-add-btn {
+  border: 0;
+  border-radius: 0.75rem;
+  padding: 0.6rem 1rem;
+  font-size: 0.9rem;
+  font-weight: 650;
+  cursor: pointer;
+}
+
+.share-note-remove-btn {
+  color: #9a1e14;
+  background: #fbeaea;
+}
+
+.share-note-remove-btn:hover {
+  background: #f8dddd;
+}
+
+.share-note-add {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.share-note-add-row {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.share-note-add-row input {
+  flex: 1;
+}
+
+.share-note-add-btn {
+  color: var(--main-button-text-color);
+  background: var(--main-button-color);
+  white-space: nowrap;
+}
+
+.share-note-add-btn:hover {
+  background: var(--main-button-hover-color);
 }
 
 @keyframes modalIn {

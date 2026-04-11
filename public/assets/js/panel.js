@@ -161,55 +161,93 @@ if (avatarWrapper) {
 
 const notesList = document.getElementById("notes-list");
 
-if (notesList) {
-  const notesFilter = document.getElementById("notes-filter");
-  const createButtons = document.querySelectorAll("[data-create-note]");
-  function showNotesWip(message) {
-    if (window.notify) {
-      window.notify.info(message);
+const notesFilter = document.getElementById("notes-filter");
+const createButtons = document.querySelectorAll("[data-create-note]");
+function showNotesWip(message) {
+  if (window.notify) {
+    window.notify.info(message);
+    return;
+  }
+
+  console.info(message);
+}
+
+async function handleCreateNoteClick(event) {
+  event.preventDefault();
+
+  try {
+    const response = await fetch("/api/createNote", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const data = await response.json();
+
+    if (response.ok && data.noteId) {
+      window.location.href = `/notes/${data.noteId}`;
+    } else {
+      window.notify.error(data?.errorMessage ?? "Failed to create note");
+    }
+  } catch (err) {
+    window.notify.error("Unable to create note");
+    console.error(err);
+  }
+}
+
+createButtons.forEach(function (button) {
+  button.addEventListener("click", handleCreateNoteClick);
+});
+
+if (notesFilter) {
+  notesFilter.addEventListener("change", function (event) {
+    const target = event.target;
+    if (!(target instanceof HTMLSelectElement)) {
       return;
     }
 
-    console.info(message);
-  }
-
-  function handleCreateNoteClick(event) {
-    event.preventDefault();
-    showNotesWip("WIP: note creation will be handled by SSR soon.");
-  }
-
-  createButtons.forEach(function (button) {
-    button.addEventListener("click", handleCreateNoteClick);
+    if ("URLSearchParams" in window) {
+      var searchParams = new URLSearchParams(window.location.search);
+      searchParams.set("note_filter", target.value);
+      window.location.search = searchParams.toString();
+    }
   });
+}
 
-  if (notesFilter) {
-    notesFilter.addEventListener("change", function (event) {
-      const target = event.target;
-      if (!(target instanceof HTMLSelectElement)) {
-        return;
-      }
-
-      showNotesWip(`WIP: '${target.value}' filter will be handled by SSR.`);
-    });
-  }
-
-  notesList.addEventListener("click", function (event) {
+if (notesList) {
+  notesList.addEventListener("click", async function (event) {
     const target = event.target;
     if (!(target instanceof Element)) {
-      return;
-    }
-
-    const openButton = target.closest("[data-open-note]");
-    if (openButton) {
-      event.preventDefault();
-      showNotesWip("WIP: note opening will be connected to SSR routes.");
       return;
     }
 
     const deleteButton = target.closest("[data-delete-note]");
     if (deleteButton) {
       event.preventDefault();
-      showNotesWip("WIP: note deletion will be handled by SSR.");
+      try {
+        const response = await fetch("/api/deleteNote", {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            noteId: deleteButton.getAttribute("data-delete-note"),
+          }),
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          window.notify.error(data?.message ?? "Successfully deleted note");
+          window.location.reload();
+        } else {
+          window.notify.error(data?.errorMessage ?? "Failed to delete note");
+        }
+      } catch (err) {
+        window.notify.error("Unable to delete note");
+        console.error(err);
+      }
     }
   });
 }

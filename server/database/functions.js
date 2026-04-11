@@ -131,6 +131,28 @@ async function getUserNotes(sessionToken) {
   return rows;
 }
 
+async function getSharedNotes(sessionToken) {
+  const pool = getDBPool();
+
+  const [rows] = await pool.query(
+    "SELECT DISTINCT `n`.`id`, `n`.`title`, `n`.`author_id`, `n`.`updated_at`, `n`.`created_at` FROM `notes` `n` JOIN `note_collaborators` `nc` ON `nc`.`note_id` = `n`.`id` JOIN `users` `u` ON `u`.`id` = `nc`.`user_id` WHERE `u`.`session_token` = ? ORDER BY `n`.`updated_at` DESC",
+    [sessionToken],
+  );
+
+  return rows;
+}
+
+async function getNoteCollaborators(noteId) {
+  const pool = getDBPool();
+
+  const [rows] = await pool.query(
+    "SELECT `nc`.`note_id`, `nc`.`user_id`, `u`.`firstname`, `u`.`lastname`, `u`.`email` FROM `note_collaborators` `nc` JOIN `users` `u` ON `u`.`id` = `nc`.`user_id` WHERE `nc`.`note_id` = ? ORDER BY `u`.`firstname`, `u`.`lastname`",
+    [noteId],
+  );
+
+  return rows;
+}
+
 async function updateUserData(firstname, lastname, email, sessionToken) {
   const pool = getDBPool();
 
@@ -244,6 +266,71 @@ async function deleteNote(noteId, sessionToken) {
   return rows.affectedRows > 0;
 }
 
+async function addNoteCollaborator(noteId, email) {
+  const pool = getDBPool();
+
+  const [rows] = await pool.query(
+    "INSERT INTO `note_collaborators` (`note_id`, `user_id`) SELECT ?, `u`.`id` FROM `users` `u` WHERE `u`.`email` = ?",
+    [noteId, email],
+  );
+
+  return rows.affectedRows > 0;
+}
+
+async function removeNoteCollaborator(noteId, email) {
+  const pool = getDBPool();
+
+  const [rows] = await pool.query(
+    "DELETE `nc` FROM `note_collaborators` `nc` JOIN `users` `u` ON `u`.`id` = `nc`.`user_id` WHERE `nc`.`note_id` = ? AND `u`.`email` = ?",
+    [noteId, email],
+  );
+
+  return rows.affectedRows > 0;
+}
+
+async function hasUserNoteAccess(noteId, sessionToken) {
+  const pool = getDBPool();
+
+  const [noteRows] = await pool.query(
+    "SELECT `author_id` FROM `notes` WHERE `id` = ?",
+    [noteId],
+  );
+
+  if (noteRows.length === 0) return "not_found";
+
+  const [userRows] = await pool.query(
+    "SELECT `id` FROM `users` WHERE `session_token` = ?",
+    [sessionToken],
+  );
+
+  if (userRows.length === 0) return false;
+
+  const noteAuthorId = noteRows[0]?.author_id;
+  const userId = userRows[0]?.id;
+
+  if (userId === noteAuthorId) return "author";
+
+  const [collaboratorRows] = await pool.query(
+    "SELECT 1 FROM `note_collaborators` WHERE `note_id` = ? AND `user_id` = ?",
+    [noteId, userId],
+  );
+
+  if (collaboratorRows.length > 0) return "read_only";
+
+  return false;
+}
+
+async function getNoteById(noteId) {
+  const pool = getDBPool();
+
+  const [rows] = await pool.query(
+    "SELECT `title`, `content`, `author_id`, `updated_at` FROM `notes` WHERE `id` = ?",
+    [noteId],
+  );
+
+  return rows.length > 0 ? rows[0] : null;
+}
+
 module.exports = {
   checkDatabaseConnection,
   checkIfEmailExists,
@@ -256,6 +343,8 @@ module.exports = {
   getUserData,
   getUserAvatar,
   getUserNotes,
+  getSharedNotes,
+  getNoteCollaborators,
   updateUserData,
   updateUserAvatar,
   changeUserPassword,
@@ -263,4 +352,8 @@ module.exports = {
   insertNewNote,
   updateNote,
   deleteNote,
+  addNoteCollaborator,
+  removeNoteCollaborator,
+  hasUserNoteAccess,
+  getNoteById,
 };

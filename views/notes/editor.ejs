@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= pageTitle %></title>
+    <link rel="stylesheet" href="/assets/css/global.css" />
+    <link rel="stylesheet" href="/assets/css/panel.css" />
+  </head>
+
+  <body class="panel-page" data-note-access="<%= noteAccess %>" data-note-id="<%= noteId %>">
+    <input type="checkbox" id="share-note-toggle" class="share-note-toggle" />
+    <nav>
+      <span class="company-name">NoteNova</span>
+      <ul>
+        <li class="nav-item">
+          <a href="/panel">My Notes</a>
+        </li>
+        <% if (noteAccess === "author") { %>
+            <li class="nav-item">
+            <label for="share-note-toggle" class="nav-share-trigger"
+                >Share Note</label
+            >
+            </li>
+        <% } %>
+      </ul>
+        <% if (noteAccess === "author") { %>
+            <select id="editor-mode" class="nav-mode-select">
+                <option value="edit" selected>Edit mode</option>
+                <option value="view">View mode</option>
+            </select>
+        <% } %>
+    </nav>
+
+    <main class="panel-main panel-home-main">
+      <section class="panel-card panel-editor-size">
+        <div class="note-title-row">
+          <input
+            type="text"
+            id="note-title"
+            class="note-title-input"
+            placeholder="Untitled Note"
+            value="<%= note.title || '' %>"
+            <% if (noteAccess !== "author") { %> readonly <% } %>
+          />
+          <span id="note-title-status" class="note-title-status" aria-live="polite">
+            <% if (noteAccess === "author") { %>Saved<% } else { %>View only<% } %>
+          </span>
+        </div>
+        <div id="editorjs"></div>
+      </section>
+    </main>
+
+    <% if (noteAccess === "author") { %>
+        <div class="modal-backdrop share-note-modal" aria-hidden="true">
+          <div class="modal-box share-note-modal-box" role="dialog" aria-modal="true" aria-labelledby="share-note-title">
+            <div class="share-note-modal-header">
+              <div>
+                <h3 id="share-note-title">Share access</h3>
+                <p>Manage who can access this note.</p>
+              </div>
+              <label for="share-note-toggle" class="share-note-close" aria-label="Close share modal">×</label>
+            </div>
+            <div class="share-note-url">
+              <label for="current-note-url">Current URL</label>
+              <input id="current-note-url" type="text" readonly value="<%= currentUrl %>" />
+              <small>Use this URL to copy and share the note.</small>
+            </div>
+            <div class="share-note-access-list">
+                <% collaborators.forEach((collab) => { %>
+                    <div class="share-note-access-item">
+                        <div>
+                            <strong><%= collab.email %></strong>
+                            <span>Can view</span>
+                        </div>
+                        <button type="button" class="share-note-remove-btn" data-email="<%= collab.email %>">Remove</button>
+                    </div>
+                <% }); %>
+            </div>
+            <div class="share-note-add">
+              <label for="share-note-email">Add email address</label>
+              <div class="share-note-add-row">
+                <input id="share-note-email" type="email" placeholder="name@example.com" />
+                <button type="button" class="share-note-add-btn">Add</button>
+              </div>
+            </div>
+          </div>
+        </div>
+    <% } %>
+
+    <footer>
+      <div class="footer-container">
+        <span>&copy; 2026 NoteNova</span>
+        <ul class="footer-links">
+          <li><a href="#">Privacy</a></li>
+          <li><a href="#">Terms</a></li>
+        </ul>
+      </div>
+    </footer>
+
+    <!-- editor js plugins -->
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/editorjs@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@coolbytes/editorjs-delimiter@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/header@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/editorjs-color-picker@1.0.8/dist/index.umd.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/list@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/table@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/code@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/marker@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/inline-code@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/underline@latest"></script>
+    <!-- editor js plugins -->
+    <script>
+      window.__NOTE_ACCESS__ = "<%= noteAccess %>";
+
+      // linter has issues, but works perfectly
+      window.__CURRENT_NOTE_CONTENT__ = <%- JSON.stringify(note?.content || null) %>;
+      // linter has issues, but works perfectly
+    </script>
+    <script src="/assets/js/editor.js"></script>
+    <script src="/assets/js/global.js"></script>
+  </body>
+</html>

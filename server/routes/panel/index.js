@@ -8,7 +8,8 @@ router.get("/", isLoggedIn, async function (req, res) {
   const sessionToken = req.session.session_token;
 
   const userData = await database.getUserData(sessionToken);
-  const userNotes = await database.getUserNotes(sessionToken);
+  const userNotes = (await database.getUserNotes(sessionToken)) ?? [];
+  const sharedNotes = (await database.getSharedNotes(sessionToken)) ?? [];
 
   res.render("panel/home", {
     pageTitle: "Home",
@@ -16,7 +17,8 @@ router.get("/", isLoggedIn, async function (req, res) {
       id: userData.id,
       firstname: userData.firstname,
     },
-    notes: userNotes ?? [],
+    notes: userNotes.concat(sharedNotes) ?? [],
+    noteFilter: req.query.note_filter ?? "all",
   });
 });
 
