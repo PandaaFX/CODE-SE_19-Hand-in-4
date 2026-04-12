@@ -5,6 +5,7 @@ This repository contains a simple server-side rendered web backend built with Ex
 The project fulfills the Hand-in 4 requirements by being deployed and secure.
 This version features profile avatars aswell as notes that can be created, updated, and deleted.
 These notes can be shared, but are only read-only for others and not live updating. A refresh is required for others to see your changes.
+The Text Editor is by [Editor.js](https://editorjs.io/). I didn't include all plugins, just the ones I thought would be neccessary.
 
 ### Landingpage
 
