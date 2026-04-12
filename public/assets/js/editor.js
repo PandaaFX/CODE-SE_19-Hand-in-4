@@ -284,7 +284,6 @@ if (shareNoteAddButton && shareNoteEmailInput) {
 
     shareNoteEmailInput.value = "";
     const result = await updateEmailAccess(email, "add");
-    console.log(result);
     if (result) {
       shareNoteAccessList.appendChild(createAccessItem(email));
       window.notify.success("Email added to access list.");
@@ -305,7 +304,6 @@ if (shareNoteAddButton && shareNoteEmailInput) {
 
 // action is either `add` or `remove`
 async function updateEmailAccess(email, action) {
-  console.log(email, action);
   if (action !== "add" && action !== "remove") return;
 
   const response = await fetch(
@@ -323,8 +321,6 @@ async function updateEmailAccess(email, action) {
   );
 
   const result = await response.json();
-
-  console.log(result);
 
   if (response?.ok) return true;
   else return false;
