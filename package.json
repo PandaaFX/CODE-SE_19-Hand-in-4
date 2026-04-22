@@ -1,14 +1,14 @@
 {
-  "name": "hand-in_3",
+  "name": "hand-in_4",
   "version": "1.0.0",
-  "description": "Express + EJS SSR starter for hand-in 3",
-  "homepage": "https://github.com/PandaaFX/CODE-SE_19-Hand-in-3#readme",
+  "description": "Express + EJS SSR + Editor.js for hand-in 4",
+  "homepage": "https://github.com/PandaaFX/CODE-SE_19-Hand-in-4#readme",
   "bugs": {
-    "url": "https://github.com/PandaaFX/CODE-SE_19-Hand-in-3/issues"
+    "url": "https://github.com/PandaaFX/CODE-SE_19-Hand-in-4/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/PandaaFX/CODE-SE_19-Hand-in-3.git"
+    "url": "git+https://github.com/PandaaFX/CODE-SE_19-Hand-in-4.git"
   },
   "license": "ISC",
   "author": "PandaaFX",
